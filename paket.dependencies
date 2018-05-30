@@ -1,0 +1,9 @@
+storage: none
+
+source https://www.myget.org/F/akkadotnet/api/v2
+source https://www.nuget.org/api/v2/
+source https://api.nuget.org/v3/index.json
+source https://dotnet.myget.org/F/dotnet-core/api/v3/index.json
+
+nuget FSharp.Core
+nuget Fable.Core
