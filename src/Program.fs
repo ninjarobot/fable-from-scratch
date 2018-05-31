@@ -1,6 +1,9 @@
 ﻿module Program
 
 open Fable.Core
+open Fable.Core.JsInterop
+open Fable.Import
+open Fable.Import.Pg
 
 type Command =
 | Script of string
@@ -36,6 +39,13 @@ let main argv =
     ]
     |> average
     |> printfn "Average: %A"
+    let clientConfig = createEmpty<Pg.ClientConfig>
+    clientConfig.database <- "postgres" |> Some
+    let client = Pg.Client.Create(clientConfig)
+    client.connect()
+    let query = createEmpty<Pg.QueryConfig>
+    query.text <- "SELECT datname AS database_name, pg_size_pretty(pg_database_size(datname)) AS size FROM pg_database;"
+    let result = client.query (query, fun err res -> printfn "%A" err; client.``end``(); printfn "%A" res.rows )
     let c = Exec ([|"foo"; "bar"|])
     printfn "Hello World from F#!: %A" c
     0 // return an integer exit code

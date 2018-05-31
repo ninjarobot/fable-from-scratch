@@ -14,6 +14,7 @@ var babelOptions = fableUtils.resolveBabelOptions({
 var isProduction = process.argv.indexOf("-p") >= 0;
 console.log("Bundling for " + (isProduction ? "production" : "development") + "...");
 module.exports = {
+  target: "node",
   devtool: "source-map", // Generates source maps
   entry: resolve('./fable-from-scratch.fsproj'), // Entry point for webpack
   output: { // The file to output and the directory to place it in
@@ -23,7 +24,10 @@ module.exports = {
   resolve: {
     modules: [
       "node_modules", resolve("./node_modules/")
-    ]
+    ],
+    alias: {
+      "pg-native": path.join(__dirname, 'aliases/pg-native.js')
+    }
   },
   module: {
     rules: [
